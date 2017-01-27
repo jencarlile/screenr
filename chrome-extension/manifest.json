@@ -23,6 +23,7 @@
     "https://localhost:8000/*",
     "tabs", 
     "tts",
-    "downloads"
+    "downloads",
+    "tabCapture"
   ]
 }
