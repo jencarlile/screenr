@@ -18,7 +18,7 @@ function bufferToDataUrl(callback) {
 
   var reader = new FileReader();
   reader.onload = function() {
-    callback(reader.result); 
+    callback(reader.result);
   };
 
   reader.readAsDataURL(blob);
@@ -44,9 +44,9 @@ function onStopButtonClick() {
   try {recorder.stop();
     recorder.stream.getTracks().forEach(function(track) {
       track.stop();
-    }); 
-  } catch (e) { 
-    console.error("Error!", e) 
+    });
+  } catch (e) {
+    console.error("Error!", e)
   }
 
   bufferToDataUrl(function(dataUrl) {
@@ -54,11 +54,16 @@ function onStopButtonClick() {
     console.log("File", file);
 
     // Do something with the file...
-    chrome.downloads.download({
-      url: dataUrl,
-      filename: 'recorded-video.webm'
-    });
 
+    // Post a message to the eventPage, which will download video
+    chrome.runtime.sendMessage({
+        msg: "recording-complete",
+        url: dataUrl,
+        filename: 'recorded-video.webm'
+      },
+      function(response) {
+        console.log(response.msg);
+      });
   });
 }
 
@@ -109,10 +114,10 @@ function onRecordButtonClick() {
 
 // ----- Experimenting with tab streaming -----
 function onRecordTab() {
-  chrome.tabCapture.capture( 
+  chrome.tabCapture.capture(
     { video: true },
-    function(tabStream) { 
-      startStream(tabStream); 
+    function(tabStream) {
+      startStream(tabStream);
     }
   );
 }

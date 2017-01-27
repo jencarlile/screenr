@@ -1,22 +1,17 @@
-// console.log("Loaded eventPage.js");
+// Background event page for Chrome Extension
 
-// chrome.runtime.onMessageExternal.addListener(function (message, sender, callback) {
-// 	console.log("FOFOFOFOFOFOF");
-//     switch(message.type) {
-//         case 'getScreen':
-//             var pending = chrome.desktopCapture.chooseDesktopMedia(message.options || ['screen', 'window'],
-//                                                                    sender.tab, function (streamid) {
-//                 // communicate this string to the app so it can call getUserMedia with it
-//                 message.type = 'gotScreen';
-//                 message.sourceId = streamid;
-//                 callback(message);
-//                 return false;
-//             });
-//             return true; // retain callback for chooseDesktopMedia result
-//         case 'cancelGetScreen':
-//             chrome.desktopCapture.cancelChooseDesktopMedia(message.request);
-//             message.type = 'canceledGetScreen';
-//             callback(message);
-//             return false; //dispose callback
-//     }
-// });
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+
+	console.log("Got message", sender.tab ?
+		"from a content script: " + sender.tab.url :
+		"from the extension");
+	if (request.msg === "recording-complete") {
+		console.log("About to download", request.filename);
+		chrome.downloads.download( {
+			url: request.url,
+			filename: request.filename
+		});
+
+		sendResponse({msg: "Received file"});
+	}
+});
