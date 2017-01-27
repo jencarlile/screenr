@@ -1,0 +1,90 @@
+<!doctype html>
+<!--
+ This page is shown when the extension button is clicked, because the
+ "browser_action" field in manifest.json contains the "default_popup" key with
+ value "popup.html".
+ -->
+<html>
+  <head>
+    <title>Flux Screen Annotator</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Open+Sans+Condensed:300|Roboto" rel="stylesheet">
+    <style>
+      body {
+        font-family: "Open Sans Condensed", "Roboto", Tahoma, sans-serif;
+        font-size: 100%;
+      }
+      #status {
+        /* avoid an excessively wide status text */
+        white-space: pre;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 400px;
+      }
+
+      #container {
+        min-width: 400px;
+        min-height: 400px;
+        width: 400px;
+        /*height: 400px;*/
+        background-color: #F0F0F0;
+        display: block;
+        padding: 20px;
+      }
+
+      h1 {
+        color: #186492;
+        text-align: center;
+      }
+
+      #video {
+        width: 350px;
+        height: 350px;
+        background: black;
+        display: block;
+        margin: 0 auto;
+      }
+
+      #btn-container {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .button {
+        background-color: #186492; /* Flux Blue */
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        font-family: "Open Sans Condensed", "Roboto", Tahoma, sans-serif;
+      }
+
+    </style>
+
+    <!--
+      - JavaScript and HTML must be in separate files: see our Content Security
+      - Policy documentation[1] for details and explanation.
+      -
+      - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
+     -->
+    <script src="popup.js"></script>
+  </head>
+  <body>
+<!--     <div id="status"></div>
+    <img id="image-result" hidden> -->
+
+    <div id="container">
+      <h1>Flux Screen Capture</h1>
+      <video id="video" autoplay></video>
+      <div id="btn-container">
+        <!-- <button id="record" class='button'>Start recording</button> -->
+        <button id="stop" class='button'>Stop recording</button>
+      </div>
+    </div>
+
+
+  </body>
+</html>
+
